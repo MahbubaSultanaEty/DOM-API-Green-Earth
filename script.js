@@ -1,5 +1,20 @@
 // console.log("connected")
 
-fetch("https://openapi.programming-hero.com/api/categoriesh").then((res) => res.json()).then(data => {
+const catagoriesContainer = document.getElementById("catagories-container");
+
+async function loadCatagories(){
+    const res =await fetch("https://openapi.programming-hero.com/api/categories");
+    const data = await res.json();
     console.log(data);
-}) //.catch(e => console.log(e))
+    data.categories.forEach(catagory => {
+        
+        const btn = document.createElement("button");
+        btn.className = "btn btn-outline w-full shadow";
+        btn.textContent = catagory.category_name;
+
+        catagoriesContainer.appendChild(btn);
+    });
+
+
+}
+loadCatagories()
