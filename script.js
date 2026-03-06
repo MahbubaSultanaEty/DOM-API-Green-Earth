@@ -2,10 +2,13 @@
 
 const catagoriesContainer = document.getElementById("catagories-container");
 const treesContainer = document.getElementById("trees-container");
-console.log(treesContainer);
+// console.log(treesContainer);
 const loadingSpinner= document.getElementById("loadong-spinner")
+const allTreesBtn = document.getElementById("allTreesBtn");
 
 
+
+// load catagories
 async function loadCatagories(){
     const res =await fetch("https://openapi.programming-hero.com/api/categories");
     const data = await res.json();
@@ -13,27 +16,84 @@ async function loadCatagories(){
     data.categories.forEach(catagory => {
         
         const btn = document.createElement("button");
-        btn.className = "btn btn-outline w-full shadow";
+        btn.className = "btn  w-full shadow";
         btn.textContent = catagory.category_name;
-
+        btn.onclick = () => selectCatagory(catagory.id, btn);
         catagoriesContainer.appendChild(btn);
     });
-
-
 }
 loadCatagories()
 
+async function selectCatagory(catagoryId, btn) {
+    // console.log(catagoryId, btn);
+    
+    showLoading()
+    const allBtns = document.querySelectorAll("#catagories-container button, #allTrees");
+    console.log(allBtns);
+    allBtns.forEach(btn => {
+        btn.classList.remove("btn-success");
+        btn.classList.add("btn-outline")
+    })
+    btn.classList.add("btn-success");
+    btn.classList.remove("btn-outline");
+  
+    const res = await fetch(`https://openapi.programming-hero.com/api/category/${catagoryId}`);
+    const data = await res.json();
+    console.log(data);
+    
+    treesContainer.innerHTML = " ";
+    displayTrees(data.plants);
+    hideLoading()
+}
 
+
+allTreesBtn.addEventListener('click', () => {
+    
+    console.log(allTreesBtn)
+    allTreesBtn.classList.add("btn-success");
+        allTreesBtn.addEventListener('click', () => {
+    
+    console.log(allTreesBtn)
+    allTreesBtn.classList.add("btn-success");
+        showLoading()
+    const allBtns = document.querySelectorAll("#catagories-container button, #allTreesBtn");
+    console.log(allBtns);
+    allBtns.forEach(btn => {
+        btn.classList.remove("btn-success");
+        btn.classList.add("btn-outline")
+    })
+    allTreesBtn.classList.add("btn-success");
+    allTreesBtn.classList.remove("btn-outline");
+  
+    
+    loadTrees()
+    hideLoading()
+})
+    const allBtns = document.querySelectorAll("#catagories-container button, #allTreesBtn");
+    console.log(allBtns);
+    allBtns.forEach(btn => {
+        btn.classList.remove("btn-success");
+        btn.classList.add("btn-outline")
+    })
+    allTreesBtn.classList.add("btn-success");
+    allTreesBtn.classList.remove("btn-outline");
+  
+    
+    loadTrees()
+    hideLoading()
+})
+
+// loading spinner
 function showLoading() {
     loadingSpinner.classList.remove("hidden");
-    treesContainer.innerHTML= " "
+    treesContainer.innerHTML = " ";
 }
 function hideLoading() {
      loadingSpinner.classList.add("hidden");
 }
 
+// load all trees
 async function loadTrees() {
-
     showLoading()
     
     const res = await fetch("https://openapi.programming-hero.com/api/plants");
@@ -44,11 +104,11 @@ async function loadTrees() {
 }    
 loadTrees()
 
-
+// display all trees
 function displayTrees(trees) {
-    console.log(trees);
+    // console.log(trees);
     trees.forEach(tree => {
-        console.log(tree);
+        // console.log(tree);
 
         const card = document.createElement("div");
         card.innerHTML = `
@@ -57,7 +117,7 @@ function displayTrees(trees) {
     <img
       src="${tree.image}"
       alt="${tree.name}"
-      class="rounded-xl" />
+      class="rounded-xl h-[400px]" />
   </figure>
   <div class="card-body items-center text-left">
     <h2 class="card-title ">${tree.name}</h2>
@@ -77,4 +137,6 @@ function displayTrees(trees) {
  treesContainer.appendChild(card)
     });
 }
+
+
 

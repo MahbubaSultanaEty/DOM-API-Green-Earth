@@ -15,12 +15,12 @@
         <h2 class="text-green-500 font-bold md:text-6xl text-4xl mb-4">Choose Your Trees</h2>
         <section class="grid grid-cols-2 sm:grid-cols-3 gap-8">
             <!-- catagories -->
-            <div class="bg-green-50 sm:col-span-1 shadow-2xl rounded p-6">
+            <div class="bg-green-50 h-[80vh] sm:col-span-1 shadow-2xl rounded p-6 sticky top-4 overflow-auto">
                 <h2 class="font-bold text-2xl mb-7">Catagories</h2>
                 <div>
                     <!-- catagory buttons -->
-                    <div id="catagories-container" class="space-y-3"> 
-
+                    <div id="catagories-container" class="space-y-3  "> 
+                        <button  id="allTreesBtn" class="btn btn-success w-full">All Trees</button>
                     </div>
                 </div>
             </div>
@@ -39,6 +39,20 @@
                 </div>
             </div>
 
+            <!-- Open the modal using ID.showModal() method -->
+<button class="btn" onclick="my_modal_1.showModal()">open modal</button>
+<dialog id="tree-details-modal" class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">Hello!</h3>
+    <p class="py-4">Press ESC key or click the button below to close</p>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
 
             <!-- cart -->
             <div class="bg-green-400 col-span-1">
