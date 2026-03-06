@@ -5,7 +5,7 @@ const treesContainer = document.getElementById("trees-container");
 // console.log(treesContainer);
 const loadingSpinner= document.getElementById("loadong-spinner")
 const allTreesBtn = document.getElementById("allTreesBtn");
-
+const treeDetailModal = document.getElementById("tree-details-modal");
 
 
 // load catagories
@@ -120,7 +120,7 @@ function displayTrees(trees) {
       class="rounded-xl h-[400px]" />
   </figure>
   <div class="card-body items-center text-left">
-    <h2 class="card-title ">${tree.name}</h2>
+    <h2 onclick="openModal(${tree.id})" class="card-title ">${tree.name}</h2>
     <p class="line-clamp-2">${tree.description}</p>
 
     <div class="flex items-start w-full mb-3 justify-between ">
@@ -138,5 +138,58 @@ function displayTrees(trees) {
     });
 }
 
+// tree detail modal
+async function openModal(treeId) {
+    console.log(treeId)
+    const res = await fetch(`https://openapi.programming-hero.com/api/plant/${treeId}`);
+    const data = await res.json();
+    console.log(data)
+    const plants = data.plants;
+    console.log(plants);
+   
+        
+        treeDetailModal.innerHTML = `
+    
+            <div class="modal-box">
+
+                <!-- Modal Header with Close Button -->
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="font-bold text-2xl text-green-700" id="modalTitle">Tree Details</h3>
+                    <button class="btn btn-sm btn-circle btn-ghost"
+                        onclick="document.getElementById('tree-details-modal').close()">✕</button>
+                </div>
+
+                <!-- Modal Content -->
+                <div class=" gap-6">
+                    <!-- Plant Image -->
+                    <img id="modalImage" src="${plants.image}" alt="plant" class="w-full h-[250px] object-cover rounded-lg mb-12">
+
+                    <!-- Plant Details -->
+                    <div class="">
+                        <p class="text-sm text-gray-500 mb-2">
+                            <span class="font-bold">Category:</span>
+                        <span id="modalCategory" class="badge badge-primary">${plants.category}</span>
+                        </p>
+                        <p class="text-sm text-gray-600 mb-4">
+                            <span id="modalDescription">${plants.description}</span>
+                        </p>
+                        <div class="flex items-baseline gap-2 mb-6">
+                            <span class="text-3xl font-bold text-green-600">$<span id="modalPrice">${plants.price}</span></span>
+                        </div>
+                    </div>
+                </div>
 
 
+                <div class="modal-action">
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="btn">Close</button>
+                    </form>
+                </div>
+            </div>
+    
+    `
+    treeDetailModal.showModal();
+}
+
+// {id: 1, image: 'https://i.ibb.co.com/cSQdg7tf/mango-min.jpg', name: 'Mango Tree', description: 'A fast-growing tropical tree that produces delicio…s sweet fruits are rich in vitamins and minerals.', category: 'Fruit Tree', …}
