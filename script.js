@@ -6,7 +6,8 @@ const treesContainer = document.getElementById("trees-container");
 const loadingSpinner= document.getElementById("loadong-spinner")
 const allTreesBtn = document.getElementById("allTreesBtn");
 const treeDetailModal = document.getElementById("tree-details-modal");
-
+const cartContainer = document.getElementById("cart-container");
+let cart= []
 
 // load catagories
 async function loadCatagories(){
@@ -39,7 +40,7 @@ async function selectCatagory(catagoryId, btn) {
   
     const res = await fetch(`https://openapi.programming-hero.com/api/category/${catagoryId}`);
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     
     treesContainer.innerHTML = " ";
     displayTrees(data.plants);
@@ -117,19 +118,19 @@ function displayTrees(trees) {
     <img
       src="${tree.image}"
       alt="${tree.name}"
-      class="rounded-xl h-[400px]" />
+      class="rounded-xl h-[200px] w-[180px] md:w-[200px]" />
   </figure>
   <div class="card-body items-center text-left">
-    <h2 onclick="openModal(${tree.id})" class="card-title ">${tree.name}</h2>
+    <h2 onclick="openModal(${tree.id})" class="card-title btn btn-ghost">${tree.name}</h2>
     <p class="line-clamp-2">${tree.description}</p>
 
     <div class="flex items-start w-full mb-3 justify-between ">
       <div class="badge line-clamp-1 badge-outline bg-green-50 text-green-600">${tree.category}</div>
-        <h2 class="font-bold  md:text-xl text-black">ট${tree.price}</h2>
+        <h2 class="font-bold  md:text-lg md:font-semibold text-black">ট${tree.price}</h2>
    </div>
 
     <div class="card-actions w-full">
-      <button class="btn btn-success rounded-full w-full">Add to Cart</button>
+      <button onclick="addToCart(${tree.id}, '${tree.name}' , ${tree.price})" class="btn btn-success rounded-full w-full">Add to Cart</button>
     </div>
   </div>
 </div>
@@ -192,4 +193,54 @@ async function openModal(treeId) {
     treeDetailModal.showModal();
 }
 
-// {id: 1, image: 'https://i.ibb.co.com/cSQdg7tf/mango-min.jpg', name: 'Mango Tree', description: 'A fast-growing tropical tree that produces delicio…s sweet fruits are rich in vitamins and minerals.', category: 'Fruit Tree', …}
+
+// add to cart 
+function addToCart(id, name, price) {
+    console.log(id, name, price);
+
+    const existingItem = cart.find(item => item.id === id)
+        if(existingItem) {
+           existingItem.quantity++
+        } else {  
+            cart.push(
+                {
+                    id,
+                    name,
+                    price,
+                    quantity: 1
+                }
+            ) }
+
+    updateCart()
+}
+function updateCart() {
+    cartContainer.innerHTML = " ";
+    console.log(cart);
+
+    let total = 0;
+    cart.forEach(cartItem => {
+        total+= cartItem.price * cartItem.quantity
+
+        const cartItemDiv = document.createElement('div');
+        cartItemDiv.innerHTML = `
+          <div class="card card-body bg-slate-100 shadow-md">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h2>${cartItem.name}</h2>
+                                <p> $${cartItem.price} * ${cartItem.quantity}</p>
+                            </div>
+                            <button onclick="removeFromCart(${cartItem.id})" class="btn btn-ghost ">✕</button>
+                        </div>
+                        <div class="text-right font-semibold text-xl">$${cartItem.price * cartItem.quantity}</div>
+                    </div>
+        `
+        cartContainer.appendChild(cartItemDiv)
+    })
+}
+
+// remove from cart
+function removeFromCart(treeId) {
+    const updatedCartElements = cart.filter(item => item.id != treeId);
+    cart = updatedCartElements;
+    updateCart()
+}

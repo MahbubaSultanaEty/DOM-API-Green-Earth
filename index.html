@@ -11,12 +11,12 @@
 
 </head>
 <body>
-    <main class="container mx-auto text-center bg-green-50 p-4">
+    <main class=" container w-11/12 mx-auto text-center bg-green-50 p-4">
         <h2 class="text-green-500 font-bold md:text-6xl text-4xl mb-4">Choose Your Trees</h2>
-        <section class="grid grid-cols-2 sm:grid-cols-3 gap-8">
+        <section class="grid grid-cols-2 sm:grid-cols-4 gap-8">
             <!-- catagories -->
-            <div class="bg-green-50 h-[80vh] sm:col-span-1 shadow-2xl rounded p-6 sticky top-4 overflow-auto">
-                <h2 class="font-bold text-2xl mb-7">Catagories</h2>
+            <div class="bg-green-50 h-screen sm:col-span-1 shadow-2xl rounded p-6 sticky top-4 overflow-auto">
+                <h2 class="font-bold text-2xl pb-12 mb-4 sticky top-4 bg-green-50 ">Catagories</h2>
                 <div>
                     <!-- catagory buttons -->
                     <div id="catagories-container" class="space-y-3  "> 
@@ -26,31 +26,39 @@
             </div>
             <!-- trees -->
             <div class=" sm:col-span-2">
-                <h2 class="font-bold text-2xl">Trees</h2>
+                <!-- <h2 class="font-bold text-2xl">Trees</h2> -->
 
-                <div id="loadong-spinner" class="h-[60vh] flex justify-center hidden">
+                <div id="loadong-spinner" class="h-[80vh] flex justify-center hidden">
                    <span class="loading loading-spinner loading-xl text-green-700"></span>
                 </div>
 
                 <!-- trees container -->
-                <div id="trees-container" class="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-7 p-4 ">
+                <div id="trees-container" class="grid grid-cols-1  md:grid-cols-2  gap-7  ">
                     <!-- card -->
 
                 </div>
             </div>
 
-            <!-- Open the modal using ID.showModal() method -->
-
- <dialog id="tree-details-modal" class="modal">
-            
-        </dialog>
-
-
-            <!-- cart -->
-            <div class="bg-green-400 col-span-1">
-                <h2 class="font-bold text-2xl">Cart</h2>
+             <!-- cart -->
+             <div class=" col-span-1 shadow">
+                <h2 class="font-bold text-2xl ">Cart</h2>
+                <div id="cart-container" class="space-y-4">
+                  
+                </div>
+                 <!-- total amount -->
+                <div class="flex justify-between bg-green-300 p-4 m-4">
+                    <span>Total: </span>
+                    <span class="totalPrice">$0</span>
+                </div>
             </div>
+            
+
+           
         </section>
+
+        <!-- Open the modal using ID.showModal() method -->
+        <dialog id="tree-details-modal" class="modal">
+ </dialog>
     </main>
 
     <script src="./script.js"></script>
