@@ -6,8 +6,8 @@ const treesContainer = document.getElementById("trees-container");
 const loadingSpinner= document.getElementById("loadong-spinner")
 const allTreesBtn = document.getElementById("allTreesBtn");
 const treeDetailModal = document.getElementById("tree-details-modal");
-const cartContainer = document.getElementById("cart-container");
-let cart= []
+// const cartContainer = document.getElementById("cart-container");
+// let cart= []
 
 // load catagories
 async function loadCatagories(){
@@ -194,53 +194,121 @@ async function openModal(treeId) {
 }
 
 
-// add to cart 
+// add to cart
+// function addToCart(id, name, price) {
+//     console.log(id, name, price);
+
+//     const existingItem = cart.find(item => item.id === id)
+//         if(existingItem) {
+//            existingItem.quantity++
+//         } else {
+//             cart.push(
+//                 {
+//                     id,
+//                     name,
+//                     price,
+//                     quantity: 1
+//                 }
+//             ) }
+
+//     updateCart()
+// }
+// function updateCart() {
+//     cartContainer.innerHTML = " ";
+//     console.log(cart);
+
+//     let total = 0;
+//     cart.forEach(cartItem => {
+//         total+= cartItem.price * cartItem.quantity
+
+//         const cartItemDiv = document.createElement('div');
+//         cartItemDiv.innerHTML = `
+//           <div class="card card-body bg-slate-100 shadow-md">
+//                         <div class="flex justify-between items-center">
+//                             <div>
+//                                 <h2>${cartItem.name}</h2>
+//                                 <p> $${cartItem.price} * ${cartItem.quantity}</p>
+//                             </div>
+//                             <button onclick="removeFromCart(${cartItem.id})" class="btn btn-ghost ">✕</button>
+//                         </div>
+//                         <div class="text-right font-semibold text-xl">$${cartItem.price * cartItem.quantity}</div>
+//                     </div>
+//         `
+//         cartContainer.appendChild(cartItemDiv)
+//     })
+// }
+
+// // remove from cart
+// function removeFromCart(treeId) {
+//     const updatedCartElements = cart.filter(item => item.id != treeId);
+//     cart = updatedCartElements;
+//     updateCart()
+// }
+
+
+
+// gpt generated
+// --------------------
+// Cart Setup
+// Cart setup
+const cartContainer = document.getElementById("cart-container");
+const totalPriceEl = document.querySelector(".totalPrice");
+const checkoutBtn = document.getElementById("checkoutBtn");
+let cart = [];
+
+// Add to cart
 function addToCart(id, name, price) {
-    console.log(id, name, price);
-
-    const existingItem = cart.find(item => item.id === id)
-        if(existingItem) {
-           existingItem.quantity++
-        } else {  
-            cart.push(
-                {
-                    id,
-                    name,
-                    price,
-                    quantity: 1
-                }
-            ) }
-
-    updateCart()
+    const existing = cart.find(item => item.id === id);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ id, name, price, qty: 1 });
+    }
+    renderCart();
 }
-function updateCart() {
-    cartContainer.innerHTML = " ";
-    console.log(cart);
 
+// Remove from cart
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);
+    renderCart();
+}
+
+// Render cart
+function renderCart() {
+    cartContainer.innerHTML = "";
     let total = 0;
-    cart.forEach(cartItem => {
-        total+= cartItem.price * cartItem.quantity
 
-        const cartItemDiv = document.createElement('div');
-        cartItemDiv.innerHTML = `
-          <div class="card card-body bg-slate-100 shadow-md">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h2>${cartItem.name}</h2>
-                                <p> $${cartItem.price} * ${cartItem.quantity}</p>
-                            </div>
-                            <button onclick="removeFromCart(${cartItem.id})" class="btn btn-ghost ">✕</button>
-                        </div>
-                        <div class="text-right font-semibold text-xl">$${cartItem.price * cartItem.quantity}</div>
-                    </div>
-        `
-        cartContainer.appendChild(cartItemDiv)
-    })
+    cart.forEach(item => {
+        total += item.price * item.qty;
+
+        const div = document.createElement("div");
+        div.className = "flex justify-between items-center bg-base-100 p-3 rounded-lg shadow hover:shadow-md transition-shadow duration-200";
+
+        div.innerHTML = `
+            <div>
+                <h3 class="font-semibold">${item.name}</h3>
+                <span class="text-sm text-gray-500">Qty: ${item.qty}</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="font-bold">$${item.price * item.qty}</span>
+                <button class="btn btn-sm btn-error btn-circle">×</button>
+            </div>
+        `;
+
+        div.querySelector("button").addEventListener("click", () => removeFromCart(item.id));
+        cartContainer.appendChild(div);
+    });
+
+    totalPriceEl.textContent = `$${total}`;
 }
 
-// remove from cart
-function removeFromCart(treeId) {
-    const updatedCartElements = cart.filter(item => item.id != treeId);
-    cart = updatedCartElements;
-    updateCart()
-}
+// Checkout button
+checkoutBtn.addEventListener("click", () => {
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+    } else {
+        alert(`Checkout successful! Total: $${cart.reduce((sum, item) => sum + item.price * item.qty, 0)}`);
+        cart = [];
+        renderCart();
+    }
+});

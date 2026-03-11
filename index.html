@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="lemonade">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Earth</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Earth</title>
 
-    <!-- tailwind and daisy -->
-     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <!-- DaisyUI CDN -->
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+
+  <!-- Tailwind CDN -->
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-</head>
+
+  </head>
 <body>
-    <main class=" container w-11/12 mx-auto text-center bg-green-50 p-4">
-        <h2 class="text-green-500 font-bold md:text-6xl text-4xl mb-4">Choose Your Trees</h2>
-        <section class="grid grid-cols-2 sm:grid-cols-4 gap-8">
+    <main class=" container w-11/12 mx-auto text-center bg-base-100 p-4">
+        <h2 class="text-primary font-bold md:text-6xl text-4xl mb-4 " >Choose Your Trees</h2>
+        <section class="grid h-screen grid-cols-2 sm:grid-cols-4 gap-8">
             <!-- catagories -->
-            <div class="bg-green-50 h-screen sm:col-span-1 shadow-2xl rounded p-6 sticky top-4 overflow-auto">
-                <h2 class="font-bold text-2xl pb-12 mb-4 sticky top-4 bg-green-50 ">Catagories</h2>
+            <div class="bg-green-50  sm:col-span-1 shadow-2xl rounded px-6  top-4 overflow-y-auto">
+                <h2 class="font-bold text-2xl pb-12 mb-4 sticky top-0  bg-green-50 ">Catagories</h2>
                 <div>
                     <!-- catagory buttons -->
                     <div id="catagories-container" class="space-y-3  "> 
@@ -25,7 +29,7 @@
                 </div>
             </div>
             <!-- trees -->
-            <div class=" sm:col-span-2">
+            <div class=" sm:col-span-2 overflow-y-auto">
                 <!-- <h2 class="font-bold text-2xl">Trees</h2> -->
 
                 <div id="loadong-spinner" class="h-[80vh] flex justify-center hidden">
@@ -40,17 +44,27 @@
             </div>
 
              <!-- cart -->
-             <div class=" col-span-1 shadow">
-                <h2 class="font-bold text-2xl ">Cart</h2>
-                <div id="cart-container" class="space-y-4">
-                  
-                </div>
-                 <!-- total amount -->
-                <div class="flex justify-between bg-green-300 p-4 m-4">
-                    <span>Total: </span>
-                    <span class="totalPrice">$0</span>
-                </div>
-            </div>
+           <div class="col-span-1 shadow-lg rounded-lg bg-base-200 flex flex-col h-full p-4">
+  
+  <!-- Cart Title -->
+  <h2 class="font-bold text-2xl mb-4">Cart</h2>
+  
+  <!-- Scrollable Cart Items -->
+  <div id="cart-container" class="flex-1 overflow-y-auto space-y-4">
+    <!-- Items added by JS -->
+  </div>
+  
+  <!-- Total + Checkout -->
+  <div class="mt-4 sticky bottom-0 bg-base-200 p-4 rounded-lg shadow-inner">
+    <div class="flex justify-between items-center mb-2">
+      <span class="font-bold text-lg">Total:</span>
+      <span class="totalPrice text-lg font-bold">$0</span>
+    </div>
+    <button id="checkoutBtn" class="btn btn-primary w-full">Checkout</button>
+  </div>
+</div>
+
+
             
 
            
@@ -62,5 +76,7 @@
     </main>
 
     <script src="./script.js"></script>
+    
+</script>
 </body>
 </html>
