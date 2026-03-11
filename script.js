@@ -247,14 +247,27 @@ async function openModal(treeId) {
 
 
 
+// navbar for mobile
+const mobileBtn = document.getElementById("mobile-menu-button");
+const mobileMenu = document.getElementById("mobile-menu");
+
+mobileBtn.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+});
+
+
 // gpt generated
 // --------------------
 // Cart Setup
 // Cart setup
 const cartContainer = document.getElementById("cart-container");
-const totalPriceEl = document.querySelector(".totalPrice");
 const checkoutBtn = document.getElementById("checkoutBtn");
 let cart = [];
+
+// select all totalPrice elements
+function getTotalElements() {
+    return document.querySelectorAll(".totalPrice");
+}
 
 // Add to cart
 function addToCart(id, name, price) {
@@ -273,7 +286,7 @@ function removeFromCart(id) {
     renderCart();
 }
 
-// Render cart
+// Render cart items
 function renderCart() {
     cartContainer.innerHTML = "";
     let total = 0;
@@ -299,7 +312,10 @@ function renderCart() {
         cartContainer.appendChild(div);
     });
 
-    totalPriceEl.textContent = `$${total}`;
+    // Update all elements with class 'totalPrice'
+    getTotalElements().forEach(el => {
+        el.textContent = `$${total}`;
+    });
 }
 
 // Checkout button
@@ -311,4 +327,68 @@ checkoutBtn.addEventListener("click", () => {
         cart = [];
         renderCart();
     }
+});
+
+
+// reviews
+
+const reviewsContainer = document.getElementById("reviews-container");
+const addReviewForm = document.getElementById("addReviewForm");
+const reviewName = document.getElementById("reviewName");
+const reviewRating = document.getElementById("reviewRating");
+const reviewComment = document.getElementById("reviewComment");
+
+// Existing reviews data
+let reviews = [
+    { name: "Alice", rating: 5, comment: "I love my new Oak tree! Great quality and fast delivery." },
+    { name: "Bob", rating: 4, comment: "Good variety of trees. The website is easy to use." }
+];
+
+// Function to render stars
+function renderStars(rating) {
+    let stars = "";
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += '<svg class="w-5 h-5 text-yellow-400 inline-block" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.949a1 1 0 00.95.69h4.152c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.286 3.948c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.539-1.118l1.285-3.948a1 1 0 00-.364-1.118L2.025 9.376c-.783-.57-.38-1.81.588-1.81h4.152a1 1 0 00.95-.69l1.286-3.949z"/></svg>';
+        } else {
+            stars += '<svg class="w-5 h-5 text-gray-300 inline-block" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.949a1 1 0 00.95.69h4.152c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.286 3.948c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.539-1.118l1.285-3.948a1 1 0 00-.364-1.118L2.025 9.376c-.783-.57-.38-1.81.588-1.81h4.152a1 1 0 00.95-.69l1.286-3.949z"/></svg>';
+        }
+    }
+    return stars;
+}
+
+// Function to render all reviews
+function renderReviews() {
+    reviewsContainer.innerHTML = "";
+    reviews.forEach(review => {
+        const card = document.createElement("div");
+        card.className = "bg-base-100 p-6 rounded-lg shadow hover:shadow-md transition-shadow duration-200 text-left";
+
+        card.innerHTML = `
+            <div class="mb-2">${renderStars(review.rating)}</div>
+            <p class="text-green-700 mb-4">${review.comment}</p>
+            <h3 class="font-semibold text-green-900">- ${review.name}</h3>
+        `;
+        reviewsContainer.appendChild(card);
+    });
+}
+
+// Initial render
+renderReviews();
+
+// Handle Add Review form submit
+addReviewForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const name = reviewName.value.trim();
+    const rating = parseInt(reviewRating.value);
+    const comment = reviewComment.value.trim();
+
+    if (!name || !rating || !comment) return;
+
+    reviews.push({ name, rating, comment });
+    renderReviews();
+
+    // Reset form
+    addReviewForm.reset();
 });
