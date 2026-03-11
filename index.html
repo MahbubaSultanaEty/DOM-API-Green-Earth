@@ -15,11 +15,43 @@
 
   </head>
 <body>
+    <!-- header -->
+
+
+    <!-- hero section -->
+<section class="relative bg-green-50 text-green-900 py-20 px-6 sm:px-12">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
+    
+    <!-- Text Content -->
+    <div class="flex-1">
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-4">
+        Grow Your Green Future
+      </h1>
+      <p class="text-lg md:text-2xl text-green-700 mb-6">
+        Explore and plant your favorite trees. Choose, add to cart, and bring nature closer to home!
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#trees-container" class="btn btn-success btn-lg">Explore Trees</a>
+        <a href="#catagories-container" class="btn btn-outline btn-lg">View Categories</a>
+      </div>
+    </div>
+    
+    <!-- Hero Image -->
+    <div class="flex-1">
+      <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=600&q=80" 
+           alt="Trees" class="rounded-xl shadow-lg w-full md:w-[500px] mx-auto" />
+    </div>
+    
+  </div>
+</section>
+
+
+    <!-- main section -->
     <main class=" container w-11/12 mx-auto text-center bg-base-100 p-4">
         <h2 class="text-primary font-bold md:text-6xl text-4xl mb-4 " >Choose Your Trees</h2>
-        <section class="grid h-screen grid-cols-2 sm:grid-cols-4 gap-8">
+        <section class="grid h-screen grid-cols-2  md:grid-cols-4 gap-8">
             <!-- catagories -->
-            <div class="bg-green-50  sm:col-span-1 shadow-2xl rounded px-6  top-4 overflow-y-auto">
+            <div id="" class="bg-green-50  sm:col-span-1 shadow-2xl rounded px-6  top-4 overflow-y-auto">
                 <h2 class="font-bold text-2xl pb-12 mb-4 sticky top-0  bg-green-50 ">Catagories</h2>
                 <div>
                     <!-- catagory buttons -->
@@ -44,7 +76,7 @@
             </div>
 
              <!-- cart -->
-           <div class="col-span-1 shadow-lg rounded-lg bg-base-200 flex flex-col h-full p-4">
+           <div class="col-span-2 sm:col-span-2 md:col-span-1 shadow-lg rounded-lg bg-base-200 flex flex-col h-full p-4 overflow-y-auto">
   
   <!-- Cart Title -->
   <h2 class="font-bold text-2xl mb-4">Cart</h2>
