@@ -256,6 +256,22 @@ mobileBtn.addEventListener("click", () => {
 });
 
 
+// search button
+document.getElementById("search-btn").addEventListener('click', async () => {
+    treesContainer.innerHTML = " ";
+    // const searchBtn = document.getElementById("search-btn");
+    const searchInput = document.getElementById("search-input").value.trim().toLowerCase();
+    // console.log(searchInput)
+     const res = await fetch("https://openapi.programming-hero.com/api/plants");
+    const data = await res.json();
+    const allPlant = data.plants;
+    console.log(allPlant)
+    const filterPlants = allPlant.filter(plant => plant.name.toLowerCase().includes(searchInput));
+    displayTrees(filterPlants);
+
+})
+
+
 // gpt generated
 // --------------------
 // Cart Setup
